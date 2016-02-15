@@ -10,7 +10,7 @@
  */
 
 // configuration
-var mqttHost = 'mqtt://test.mosquitto.org';
+var mqttHost = 'mqtt://mi5.itq.de';
 var jsonTopic = '/mqttJsonBridge/'; // important dash beginning, end '/foo/';
 var port = 3000;
 
@@ -19,10 +19,21 @@ var mqtt    = require('mqtt');
 var express = require('express');
 var _       = require('underscore');
 
+// Fixing CORS
+// http://stackoverflow.com/questions/7067966/how-to-allow-cors-in-express-node-js
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', 'http://localhost');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+    next();
+}
+
 // temp
 var dataStruct = [];
 
 var app = express();
+app.use(allowCrossDomain);
 var client  = mqtt.connect(mqttHost);
 
 client.on('connect', function () {
