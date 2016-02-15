@@ -3,16 +3,22 @@
  * The last value is stored. The values are hold in process in dataStruct and
  * updated when a new value comes on the same topic.
  *
+ * MQTT Topic: /jsonTopic/roomA/measurements/temperature
+ * REST: http://localHost:port/jsonTopic/roomA-measurements-temperature
+ *
  * @author Thomas Frei
  * @version 0.0.1
  *
  * @type {exports|module.exports}
  */
 
+var config = require('./config.js');
+
 // configuration
-var mqttHost = 'mqtt://mi5.itq.de';
-var jsonTopic = '/mqttJsonBridge/'; // important dash beginning, end '/foo/';
-var port = 3000;
+var mqttHost = config.mqttHost;
+var jsonTopic = config.jsonTopic;
+var localHost = config.localHost;
+var port = config.port;
 
 // libraries
 var mqtt    = require('mqtt');
@@ -22,10 +28,9 @@ var _       = require('underscore');
 // Fixing CORS
 // http://stackoverflow.com/questions/7067966/how-to-allow-cors-in-express-node-js
 var allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'http://localhost');
+    res.header('Access-Control-Allow-Origin', localHost);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
-
     next();
 }
 
