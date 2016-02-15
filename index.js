@@ -10,7 +10,7 @@
  */
 
 // configuration
-var mqttHost = 'mqtt://mi5.itq.de';
+var mqttHost = 'mqtt://test.mosquitto.org';
 var jsonTopic = '/mqttJsonBridge/'; // important dash beginning, end '/foo/';
 var port = 3000;
 
@@ -26,6 +26,7 @@ var app = express();
 var client  = mqtt.connect(mqttHost);
 
 client.on('connect', function () {
+  console.log('connected to:',mqttHost);
   client.subscribe(jsonTopic+'#'); // add wildcard
   console.log('subscribed to:',jsonTopic);
 });
